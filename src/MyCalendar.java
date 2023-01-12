@@ -53,10 +53,39 @@ public class MyCalendar {
         int id = scanner.nextInt();
         if (actualTasks.containsKey(id)) {
             actualTasks.remove(id);
-            System.out.println("Задча удалена\n");
+            System.out.println("Задача удалена\n");
         } else {
             System.out.println("Такой задачи не существует\n");
         }
+    }
+
+    public static void getTaskByDay(Scanner scanner) {
+        System.out.println("Введите необходимую дату в формате dd.MM.yyyy:");
+        scanner.nextLine();
+        try {
+            String date = scanner.next();
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            LocalDate requestedDate = LocalDate.parse(date, dateFormatter);
+            List<Repeat> foundEvents = findTasksByDate(requestedDate);
+            System.out.println("События на " + requestedDate + ":");
+            for (Repeat task : foundEvents) {
+                System.out.println(task);
+            }
+        } catch (DateTimeParseException e) {
+            System.out.println("Проверьте формат даты dd.MM.yyyy и попробуйте еще раз");
+        }
+        System.out.println("Для выхода нажмите Enter\n");
+        scanner.nextLine();
+    }
+
+    private static List<Repeat> findTasksByDate(LocalDate date) {
+        List<Repeat> tasks = new ArrayList<>();
+        for (Repeat task : actualTasks.values()) {
+            if (task.checkDate(date.atStartOfDay())) {
+                tasks.add(task);
+            }
+        }
+        return tasks;
     }
 
     private static Repeat createTask(int occurance, String title, String description, TypeTask typeTask, LocalDateTime localDateTime) throws WrongInputException {
@@ -95,4 +124,5 @@ public class MyCalendar {
             System.out.println(task);
         }
     }
+
 }

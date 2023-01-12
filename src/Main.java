@@ -16,6 +16,8 @@ public class Main {
                         case 2:
                             MyCalendar.deleteTask(scanner);
                             break;
+                        case 3:
+                            MyCalendar.getTaskByDay(scanner);
                         case 0:
                             break label;
                     }
@@ -36,7 +38,8 @@ public class Main {
         System.out.println(
                 """
                         1. Добавить задачу
-                        2. Удалить задачу                      
+                        2. Удалить задачу   
+                        3. Получить задачу на указанный день                  
                         0. Выход
                         """
         );
